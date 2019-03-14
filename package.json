@@ -1,0 +1,26 @@
+{
+  "name": "nodeimageutil",
+  "version": "1.0.0",
+  "description": "A image util for Nodejs",
+  "main": "nodeimageutil.js",
+  "scripts": {
+    "test": "test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jifengg/NodeImageUtil.git"
+  },
+  "keywords": [
+    "image",
+    "util"
+  ],
+  "author": "jifengg",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/jifengg/NodeImageUtil/issues"
+  },
+  "homepage": "https://github.com/jifengg/NodeImageUtil#readme",
+  "directories": {
+    "test": "test"
+  }
+}
