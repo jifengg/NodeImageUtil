@@ -84,6 +84,18 @@ async function test() {
         //转换一个jpg文件成png文件，分辨率修改为130x240，pngquant压缩参数为40-80
         await iu.Convert(testFile, path.join(tempDir, "me" + getFileNameSuffix(opt) + ".png"), opt);
 
+        opt = {}
+        let pngTempFile = path.join(tempDir, "temp.png");
+        await iu.Convert(testFile, pngTempFile, opt)
+        opt = {
+            Quality: 90,
+            PngQunlityMin: 50,
+            Width: 233,
+            Heigth: 322
+        }
+        //压缩一个png文件，分辨率修改为233x322，pngquant压缩参数为50-90
+        await iu.Convert(pngTempFile, path.join(tempDir, "out" + getFileNameSuffix(opt) + ".png"), opt)
+
         console.log('end');
     } catch (error) {
         console.error('test() error:', JSON.stringify(error, null, 4));

@@ -140,6 +140,7 @@ async function Init(conf) {
  * @param  {...string} args 命令参数
  */
 function run(file, ...args) {
+    showDebug && console.debug(file, ...args);
     return new Promise((resolve, reject) => {
         let the_error = null, the_stdout = null, the_stderr = null, the_exit_code = null;
         let getOutput = false;
@@ -215,6 +216,7 @@ async function Convert(fileIn, fileOut, opt) {
     let args = [];
     //处理过程中使用的临时文件
     let tempFile = fileIn;
+    let outFormat = path.extname(fileOut).replace(".", "").toUpperCase();
     let info = await Info(fileIn);
     if (info.IsKnowImage == false) {
         throw new Error("UnknowImageFormat");
@@ -236,17 +238,11 @@ async function Convert(fileIn, fileOut, opt) {
         args.push("-resize", `${w}x${h}!`)
     }
     //如果需要进行压缩
-    if (opt.Quality && opt.Quality > 0) {
-        if (info.Format != PNG) {
-            args.push("-quality", opt.Quality + "");
-        }
+    if (opt.Quality && opt.Quality > 0 && outFormat != PNG) {
+        args.push("-quality", opt.Quality + "");
     }
     //如果没有特殊参数，判断输入输出文件格式是否相同，如果相同，则不做处理
-    if (args.length == 0) {
-        if (path.extname(tempFile) != path.extname(fileOut)) {
-            args.push(tempFile, fileOut);
-        }
-    } else {
+    if (args.length > 0 || path.extname(tempFile) != path.extname(fileOut)) {
         args.push(tempFile, fileOut);
     }
     //如果需要使用ImageMagick处理
@@ -254,12 +250,10 @@ async function Convert(fileIn, fileOut, opt) {
         await run(imageMagickConvertPath, ...args);
         //将临时文件路径指向输出文件，便于后续处理
         tempFile = fileOut
-        //重新获取文件的属性
-        info = await Info(tempFile);
     }
 
     //如果是png，且需要压缩
-    if (opt.Quality && opt.Quality > 0 && info.Format == PNG) {
+    if (opt.Quality && opt.Quality > 0 && outFormat == PNG) {
         if (opt.PngQunlityMin == null || opt.PngQunlityMin > opt.Quality) {
             opt.PngQunlityMin = 1;
         }
