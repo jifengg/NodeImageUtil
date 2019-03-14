@@ -173,7 +173,7 @@ function run(file, ...args) {
  * @returns {ImageInfo} 图像属性
  */
 async function Info(file) {
-    let format = `{"w":%[w],"h":%[h],"m":"%[m]"}`;//,"size":%[B]    B=文件字节数，在7.0版本之前不支持
+    let format = `{"w":%[width],"h":%[height],"m":"%[magick]"}`;//,"size":%[B]    B=文件字节数，在7.0版本之前不支持
     try {
         let output = await run(imageMagickIdentifyPath, "-format", format, file);
         // showDebug && console.debug("get info output:", output);
