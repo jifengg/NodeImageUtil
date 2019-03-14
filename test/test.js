@@ -26,7 +26,7 @@ async function test() {
                 }
         )
         if (err) {
-            console.error("nodeimageutil can not init", err);
+            console.error("nodeimageutil can not init", JSON.stringify(err));
             return;
         } else {
             console.info("nodeimageutil init success")

@@ -115,18 +115,12 @@ let Config = {
  */
 async function Init(conf) {
     try {
-        if (conf.ImageMagickConvertPath) {
-            await run(conf.ImageMagickConvertPath, "--version");
-            imageMagickConvertPath = conf.ImageMagickConvertPath;
-        }
-        if (conf.ImageMagickIdentifyPath) {
-            await run(conf.ImageMagickIdentifyPath, "--version");
-            imageMagickIdentifyPath = conf.ImageMagickIdentifyPath;
-        }
-        if (conf.PngquantPath) {
-            await run(conf.PngquantPath, "--version");
-            pngquantPath = conf.PngquantPath;
-        }
+        imageMagickConvertPath = conf.ImageMagickConvertPath || imageMagickConvertPath;
+        imageMagickIdentifyPath = conf.ImageMagickIdentifyPath || imageMagickIdentifyPath;
+        pngquantPath = conf.PngquantPath || pngquantPath;
+        await run(imageMagickIdentifyPath, "--version");
+        await run(imageMagickConvertPath, "--version");
+        await run(pngquantPath, "--version");
         showDebug = conf.ShowDebug;
         showError = conf.ShowError;
         if (showDebug) {
